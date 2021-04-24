@@ -7,7 +7,7 @@ import time
 
 def main():
     # load twitter api info
-    with open('credentials.json') as f:
+    with open('fle_credentials.json') as f:
         creds = json.load(f)
         consumer_key = creds['consumer_key']
         consumer_secret = creds['consumer_secret']
@@ -31,7 +31,7 @@ def main():
     df = df.set_index('id')
 
     # load previous polls data
-    prior = pd.read_pickle('mirror_data.pkl')
+    prior = pd.read_pickle('test_mirror.pkl')
 
     # check for any new information
     for id in df.index:
@@ -43,11 +43,11 @@ def main():
             print(f"TWEET SENT --- {tweet_text}")
 
     # save latest poll data
-    df.to_pickle("mirror_data.pkl")
-    print(f"run complete {time.gmtime().tm_hour}:{time.gmtime().tm_min}:{time.gmtime().tm_sec}")
+    df.to_pickle("test_mirror.pkl")
+    api.update_status(f"test complete {time.gmtime().tm_hour}:{time.gmtime().tm_min}:{time.gmtime().tm_sec}")
 
 if __name__ == '__main__':
-    schedule.every(3).hours.do(main)
+    schedule.every(15).seconds.do(main)
 
     while True:
         n = schedule.idle_seconds()
