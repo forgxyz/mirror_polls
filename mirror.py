@@ -6,6 +6,8 @@ import subprocess
 import time
 
 # test comment
+# run on pi with nohup python3 -u mirror.py > output.log &
+
 
 def main():
     # load twitter api info
@@ -49,7 +51,7 @@ def main():
     print(f"run complete {time.gmtime().tm_hour}:{time.gmtime().tm_min}:{time.gmtime().tm_sec}")
 
 if __name__ == '__main__':
-    schedule.every(2).hours.do(main)
+    schedule.every(1).hours.do(main)
 
     while True:
         n = schedule.idle_seconds()
