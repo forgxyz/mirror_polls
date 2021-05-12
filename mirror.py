@@ -47,7 +47,7 @@ def main():
     print(f"run complete {time.gmtime().tm_hour}:{time.gmtime().tm_min}:{time.gmtime().tm_sec}")
 
 if __name__ == '__main__':
-    schedule.every(3).hours.do(main)
+    schedule.every(2).hours.do(main)
 
     while True:
         n = schedule.idle_seconds()

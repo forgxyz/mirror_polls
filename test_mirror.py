@@ -31,7 +31,7 @@ def main():
     df = df.set_index('id')
 
     # load previous polls data
-    prior = pd.read_pickle('test_mirror.pkl')
+    prior = pd.read_pickle('mirror_data_mac.pkl')
 
     # check for any new information
     for id in df.index:
@@ -39,15 +39,15 @@ def main():
             tweet_text = f"NEW $MIR POLL ALERT [{id}]: {df.loc[id].title} ... #vote https://terra.mirror.finance/gov/poll/{id} $LUNA $ANC #terra"
             if len(tweet_text) > 140:
                 tweet_text = f"NEW $MIR POLL ALERT [{id}]: {df.loc[id].title[:20]} ... #vote https://terra.mirror.finance/gov/poll/{id} $LUNA $ANC #terra"
-            api.update_status(tweet_text)
+            # api.update_status(tweet_text)
             print(f"TWEET SENT --- {tweet_text}")
 
     # save latest poll data
-    df.to_pickle("test_mirror.pkl")
-    api.update_status(f"test complete {time.gmtime().tm_hour}:{time.gmtime().tm_min}:{time.gmtime().tm_sec}")
+    df.to_pickle("mirror_data_mac.pkl")
+    print(f"run complete {time.gmtime().tm_hour}:{time.gmtime().tm_min}:{time.gmtime().tm_sec}")
 
 if __name__ == '__main__':
-    schedule.every(15).seconds.do(main)
+    schedule.every(5).seconds.do(main)
 
     while True:
         n = schedule.idle_seconds()
