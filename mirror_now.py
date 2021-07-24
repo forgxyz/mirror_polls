@@ -51,18 +51,19 @@ def main():
     print(f"run complete {time.gmtime().tm_hour}:{time.gmtime().tm_min}:{time.gmtime().tm_sec}")
 
 if __name__ == '__main__':
-    schedule.every(1).hours.do(main)
+	main()
+#    schedule.every(1).hours.do(main)
 
-    while True:
-        n = schedule.idle_seconds()
-        if n is None:
-            # no more jobs
-            break
-        elif n > 0:
-            # sleep exactly the right amount of time
-            print(f"{n} seconds until next run")
-            time.sleep(n)
-        schedule.run_pending()
+#    while True:
+#        n = schedule.idle_seconds()
+#        if n is None:
+#            # no more jobs
+#            break
+#        elif n > 0:
+#            # sleep exactly the right amount of time
+#            print(f"{n} seconds until next run")
+#            time.sleep(n)
+#        schedule.run_pending()
 
 
 # capture poll['id']
