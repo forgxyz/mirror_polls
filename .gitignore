@@ -131,5 +131,7 @@ dmypy.json
 # xyz
 fle_credentials.json
 credentials.json
+new_creds.json
+creds.json
 *.log
 *.out
