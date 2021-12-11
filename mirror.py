@@ -5,8 +5,7 @@ import schedule
 import subprocess
 import time
 
-# test comment
-# run on pi with nohup python3 -u mirror.py > output.log &
+# run on pi with nohup python3 -u mirror.py > logs/output.log &
 
 
 def main():
@@ -35,19 +34,19 @@ def main():
     df = df.set_index('id')
 
     # load previous polls data
-    prior = pd.read_pickle('mirror_data.pkl')
+    prior = pd.read_pickle('data/mirror_data.pkl')
 
     # check for any new information
     for id in df.index:
         if id not in list(prior.index):
-            tweet_text = f"NEW MIRROR POLL! {df.loc[id].title} ... #vote on {id}: https://terra.mirror.finance/gov/poll/{id} $MIR $LUNA #terra"
+            tweet_text = f"NEW MIRROR POLL! {df.loc[id].title} ... #vote on {id}: http://mirrorprotocol.app/#/gov/poll/{id} $MIR $LUNA #terra"
             if len(tweet_text) > 280:
-                tweet_text = f"NEW MIRROR POLL! {df.loc[id].title[:50]} ... #vote on {id}: https://terra.mirror.finance/gov/poll/{id} $MIR $LUNA #terra"
+                tweet_text = f"NEW MIRROR POLL! {df.loc[id].title[:50]} ... #vote on {id}: http://mirrorprotocol.app/#/gov/poll/{id} $MIR $LUNA #terra"
             api.update_status(tweet_text)
             print(f"TWEET SENT --- {tweet_text}")
 
     # save latest poll data
-    df.to_pickle("mirror_data.pkl")
+    df.to_pickle("data/mirror_data.pkl")
     print(f"run complete {time.gmtime().tm_hour}:{time.gmtime().tm_min}:{time.gmtime().tm_sec}")
 
 if __name__ == '__main__':
@@ -63,19 +62,3 @@ if __name__ == '__main__':
             print(f"{n} seconds until next run")
             time.sleep(n)
         schedule.run_pending()
-
-
-# capture poll['id']
-# check poll['status'] ['title'] ['link']
-# if status changed from last time, tweet result
-# if new poll id, tweet
-# also add tweet when 24 hours from the end of a poll
-    # or blocks to end
-# tweet when close to quoroum
-    # need total staked amount for this
-# tweet live results when threshold met
-
-# number of MIR for votes includes 6 sig figs so 1mm is 1000000000000
-
-# df.to_pickle(filename) to save the file for later use
-# pd.read_pickle(filename) to load it back

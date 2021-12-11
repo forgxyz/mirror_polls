@@ -135,3 +135,4 @@ new_creds.json
 creds.json
 *.log
 *.out
+*.DS_Store

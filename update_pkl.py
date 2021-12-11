@@ -2,6 +2,7 @@ import pandas as pd
 import json
 import subprocess
 
+# this will update the local pickle file to current status
 
 def main():
     # run cli to get current polls data
@@ -15,7 +16,7 @@ def main():
     df = df.set_index('id')
 
     # save latest poll data
-    df.to_pickle("mirror_data.pkl")
+    df.to_pickle("data/mirror_data.pkl")
 
 
 if __name__ == '__main__':

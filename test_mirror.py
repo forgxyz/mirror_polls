@@ -36,9 +36,9 @@ def main():
     # check for any new information
     for id in df.index:
         if id not in list(prior.index):
-            tweet_text = f"NEW $MIR POLL ALERT [{id}]: {df.loc[id].title} ... #vote https://terra.mirror.finance/gov/poll/{id} $LUNA $ANC #terra"
+            tweet_text = f"NEW $MIR POLL ALERT [{id}]: {df.loc[id].title} ... #vote http://mirrorprotocol.app/#/gov/poll/{id} $LUNA $ANC #terra"
             if len(tweet_text) > 140:
-                tweet_text = f"NEW $MIR POLL ALERT [{id}]: {df.loc[id].title[:20]} ... #vote https://terra.mirror.finance/gov/poll/{id} $LUNA $ANC #terra"
+                tweet_text = f"NEW $MIR POLL ALERT [{id}]: {df.loc[id].title[:20]} ... #vote http://mirrorprotocol.app/#/gov/poll/{id} $LUNA $ANC #terra"
             # api.update_status(tweet_text)
             print(f"TWEET SENT --- {tweet_text}")
 
