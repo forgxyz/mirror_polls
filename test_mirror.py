@@ -31,7 +31,7 @@ def main():
     df = df.set_index('id')
 
     # load previous polls data
-    prior = pd.read_pickle('mirror_data_mac.pkl')
+    prior = pd.read_pickle('data/mirror_data_mac.pkl')
 
     # check for any new information
     for id in df.index:
@@ -43,7 +43,7 @@ def main():
             print(f"TWEET SENT --- {tweet_text}")
 
     # save latest poll data
-    df.to_pickle("mirror_data_mac.pkl")
+    df.to_pickle("data/mirror_data_mac.pkl")
     print(f"run complete {time.gmtime().tm_hour}:{time.gmtime().tm_min}:{time.gmtime().tm_sec}")
 
 if __name__ == '__main__':

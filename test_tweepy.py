@@ -1,6 +1,6 @@
 import json, tweepy
 
-with open('creds.json') as f:
+with open('fle_credentials.json') as f:
     creds = json.load(f)
     consumer_key = creds['consumer_key']
     consumer_secret = creds['consumer_secret']
@@ -13,3 +13,5 @@ auth.set_access_token(access_token, access_token_secret)
 api = tweepy.API(auth)
 
 print(api)
+
+api.update_status("tweepy test one")

@@ -7,7 +7,7 @@ out = subprocess.run(['mirrorcli', 'query', 'gov', 'polls'], capture_output=True
 
 res = json.loads(out.stdout)
 
-print(res)
+
 # load into dataframe
 df = pd.DataFrame(res['polls'])
 df = df.set_index('id')
@@ -23,4 +23,3 @@ for id in df.index:
         print(f"TWEET MESSAGE --- {tweet_text}")
 
 df.to_pickle("data/mirror_data_mac.pkl")
-print(f"run complete {time.gmtime().tm_hour}:{time.gmtime().tm_min}:{time.gmtime().tm_sec}")
