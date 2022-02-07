@@ -26,28 +26,34 @@ def main():
     # run cli to get current polls data
     out = subprocess.run(['mirrorcli', 'query', 'gov', 'polls'], capture_output=True, text=True)
 
-    # jsonify
-    res = json.loads(out.stdout)
+    try:
+        # jsonify
+        res = json.loads(out.stdout)
+    
+    
+        # load into dataframe
+        df = pd.DataFrame(res['polls'])
+        df = df.set_index('id')
 
-    # load into dataframe
-    df = pd.DataFrame(res['polls'])
-    df = df.set_index('id')
+        # load previous polls data
+        prior = pd.read_pickle('data/mirror_data.pkl')
 
-    # load previous polls data
-    prior = pd.read_pickle('data/mirror_data.pkl')
+        # check for any new information
+        for id in df.index:
+            if id not in list(prior.index):
+                tweet_text = f"NEW MIRROR POLL! {df.loc[id].title} ... #vote on {id}: http://mirrorprotocol.app/#/gov/poll/{id} $MIR $LUNA #terra"
+                if len(tweet_text) > 280:
+                    tweet_text = f"NEW MIRROR POLL! {df.loc[id].title[:50]} ... #vote on {id}: http://mirrorprotocol.app/#/gov/poll/{id} $MIR $LUNA #terra"
+                api.update_status(tweet_text)
+                print(f"TWEET SENT --- {tweet_text}")
 
-    # check for any new information
-    for id in df.index:
-        if id not in list(prior.index):
-            tweet_text = f"NEW MIRROR POLL! {df.loc[id].title} ... #vote on {id}: http://mirrorprotocol.app/#/gov/poll/{id} $MIR $LUNA #terra"
-            if len(tweet_text) > 280:
-                tweet_text = f"NEW MIRROR POLL! {df.loc[id].title[:50]} ... #vote on {id}: http://mirrorprotocol.app/#/gov/poll/{id} $MIR $LUNA #terra"
-            api.update_status(tweet_text)
-            print(f"TWEET SENT --- {tweet_text}")
+        # save latest poll data
+        df.to_pickle("data/mirror_data.pkl")
+        print(f"run complete {time.gmtime().tm_hour}:{time.gmtime().tm_min}:{time.gmtime().tm_sec}")
 
-    # save latest poll data
-    df.to_pickle("data/mirror_data.pkl")
-    print(f"run complete {time.gmtime().tm_hour}:{time.gmtime().tm_min}:{time.gmtime().tm_sec}")
+    except ValueError:
+        print("JSON Error")
+
 
 if __name__ == '__main__':
     schedule.every(1).hours.do(main)
@@ -59,6 +65,5 @@ if __name__ == '__main__':
             break
         elif n > 0:
             # sleep exactly the right amount of time
-            print(f"{n} seconds until next run")
             time.sleep(n)
         schedule.run_pending()
