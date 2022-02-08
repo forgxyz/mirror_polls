@@ -49,7 +49,7 @@ def main():
 
         # save latest poll data
         df.to_pickle("data/mirror_data.pkl")
-        print(f"run complete {time.gmtime().tm_mon}/{time.gmtime().tm_day} {time.gmtime().tm_hour}:{time.gmtime().tm_min}:{time.gmtime().tm_sec}")
+        print(f"run complete {time.gmtime().tm_mon}/{time.gmtime().tm_mday} {time.gmtime().tm_hour}:{time.gmtime().tm_min}:{time.gmtime().tm_sec}")
 
     except ValueError:
         print("JSON Error")
